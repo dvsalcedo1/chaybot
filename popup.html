@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <title>Title of extension</title>
+    
+  <script src="js/jquery.min.js"></script>
+  <script src="js/materialize.min.js"></script>
+  <script type="module" src="popup.js"></script>
+    
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/style.css">
+    
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  
+</head>
+
+<body style="width:400px;">
+  <!-- Main Header -->
+  <nav class="blue darken-3">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">ChayBot</a>
+    </div>
+  </nav>
+
+  <div class="row noMargin noPadding">
+    <!-- Tab header -->
+    <div class="col s12 noMargin noPadding">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab col s3"><a class="active blue-text" href="#actionsTab">Actions</a></li>
+        <li class="tab col s3"><a class="blue-text" href="#resultsTab">Results</a></li>
+      </ul>
+    </div>
+    
+    <!-- Actions Tab -->
+    <div id="actionsTab" class="seolist collection noMargin noPadding noBorder scroll">
+      <a class="blue-text collection-item" target="_blank">
+        Check article
+        <span class="new badge blue" data-badge-caption="Run Tests"><span></span>
+      </a>
+    </div>
+
+    <!-- Results Tab -->
+    <div id="resultsTab" class="seolist collection noMargin noPadding noBorder scroll">
+      There are no tests yet.
+    </div>
+  </div>
+
+</body>
+</html>

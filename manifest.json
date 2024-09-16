@@ -1,0 +1,34 @@
+{
+    "name": "Editorial Compliance Checker",
+    "version": "0.1.0",
+    "description": "Editorial Compliance Checker",
+    "permissions": ["storage", "tabs"],
+    "host_permissions": [
+      "https://*.rappler.com/wp-admin/*",
+      "http://127.0.0.1:5000/"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://*.rappler.com/wp-admin/*"],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/rappler-logo-new.png"
+        ],
+        "matches": ["https://*.rappler.com/*"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/rappler-logo-new.png",
+        "24": "assets/rappler-logo-new.png",
+        "32": "assets/rappler-logo-new.png"
+      },
+      "default_title": "ChayBot",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+}
