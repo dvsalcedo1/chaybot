@@ -5,7 +5,8 @@
     "permissions": ["storage", "tabs"],
     "host_permissions": [
       "https://*.rappler.com/wp-admin/*",
-      "http://127.0.0.1:5000/"
+      "http://127.0.0.1:5000/",
+      "http://35.226.17.69:5000/"
     ],
     "content_scripts": [
       {

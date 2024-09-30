@@ -29,7 +29,7 @@ const onCheck = async e => {
 // Run Tests Function
 const runTests = async (story) => {
     // Call on the chaybot-flask api to process the tests
-    const flaskRes = await fetch("http://127.0.0.1:5000/basictests", {
+    const flaskRes = await fetch("http://35.226.17.69:5000/basictests", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
