@@ -11,11 +11,14 @@ document.addEventListener("DOMContentLoaded", async() => {
         // Create buttons for runtests
         const runTestsElement = document.getElementsByClassName("new badge blue")[0];
         await runTestsElement.addEventListener("click", onCheck);
+
+        // Create buttons for save story
+        const saveTestsElement = document.getElementsByClassName("new badge blue")[1];
+        await saveTestsElement.addEventListener("click", onSave);
     } else {
         const container = document.getElementsByClassName("row noMargin noPadding")[0];
         container.innerHTML = '<div class="title">This is not a valid story page.</div>';
     }
-
 });
 
 // Runtests button
@@ -24,6 +27,22 @@ const onCheck = async e => {
     chrome.tabs.sendMessage(activeTab.id, {
         type: "CHECK"
     }, runTests)
+};
+
+const onSave = async e => {
+    const activeTab = await getActiveTabURL();
+    chrome.tabs.sendMessage(activeTab.id, {
+        type: "CHECK"
+    },
+    async (story) => {
+        const jsonLogs = await JSON.stringify(story, null, 2);
+        const logBlob = new Blob([jsonLogs], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(logBlob);
+        link.download = story['url']+'.json';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    });
 };
 
 // Run Tests Function
@@ -64,6 +83,5 @@ const runTests = async (story) => {
         flaskTestElement.target = "_blank";
         flaskTestElement.innerHTML = flaskData.details[i].ruleCode + '<br>'+ flaskData.details[i].resultDesc + ' <span class="new badge blue" data-badge-caption="'+ flaskData.details[i].ruleResult +'"><span></span>';
         container.appendChild(flaskTestElement);
-    }
-
+    };
 };
