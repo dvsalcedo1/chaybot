@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", async() => {
             $('.tabs').tabs();
         });
 
-        // Create buttons for runtests
+        // Create function for runtests
         const runTestsElement = document.getElementById("runTests");
         await runTestsElement.addEventListener("click", onCheck);
 
-        // Create buttons for save story
+        // Create function for save story
         const saveTestsElement = document.getElementById("saveStory");
         await saveTestsElement.addEventListener("click", onSave);
     } else {
@@ -59,31 +59,40 @@ const runTests = async (story) => {
     });
     const flaskData = await flaskRes.json();
 
-    // Create the summary display of all tests
-    const flaskSummaryPassedElement = document.createElement("a");
-    flaskSummaryPassedElement.id = "summary-passed"
-    flaskSummaryPassedElement.classList = "blue-text collection-item";
-    flaskSummaryPassedElement.target = "_blank";
-    flaskSummaryPassedElement.innerHTML = 'Tests Passed ' + '<span class="new badge blue" data-badge-caption="'+ flaskData.summary.tests_passed +'"><span></span>';
+    function createBlock(typ='div', className='',innerHTML='') {
+        const blk = document.createElement(typ);
+        blk.className = className;
+        blk.innerHTML = innerHTML;
+        return blk;
+    }
 
-    const flaskSummaryFailedElement = document.createElement("a");
-    flaskSummaryFailedElement.id = "summary-failed"
-    flaskSummaryFailedElement.classList = "blue-text collection-item";
-    flaskSummaryFailedElement.target = "_blank";
-    flaskSummaryFailedElement.innerHTML = 'Tests Failed ' + '<span class="new badge blue" data-badge-caption="'+ flaskData.summary.tests_failed +'"><span></span>';
+    // Create the summary display of all tests
+    const flaskSummaryElement = createBlock('div','row');
+    const flaskSummaryPassedElement = createBlock('span','col s6 green badge white-text','Tests Passed: '+flaskData.summary.tests_passed);
+    const flaskSummaryFailedElement = createBlock('span','col s6 red badge white-text','Tests Failed: '+flaskData.summary.tests_failed);
 
     const container = await document.getElementById("resultsTab");
     container.innerHTML = '';
-    container.appendChild(flaskSummaryPassedElement);
-    container.appendChild(flaskSummaryFailedElement);
+
+    flaskSummaryElement.appendChild(flaskSummaryPassedElement);
+    flaskSummaryElement.appendChild(flaskSummaryFailedElement);
+    container.appendChild(flaskSummaryElement);
 
     // Create one block for each test
     for (let i = 0; i < flaskData.details.length; i++) {
-        const flaskTestElement = document.createElement("a");
-        flaskTestElement.id = flaskData.details[i].ruleCode;
-        flaskTestElement.classList = "blue-text collection-item";
-        flaskTestElement.target = "_blank";
-        flaskTestElement.innerHTML = flaskData.details[i].ruleCode + '<br>'+ flaskData.details[i].resultDesc + ' <span class="new badge blue" data-badge-caption="'+ flaskData.details[i].ruleResult +'"><span></span>';
-        container.appendChild(flaskTestElement);
+        if (flaskData.details[i].ruleResult == "FAIL") {
+            const flaskTestElement = createBlock('div','row');
+            const flaskTestElementContainer = createBlock('div', 'col s12 m6');
+
+            const flaskTestCard = createBlock('div','card blue darken-1')
+            const flaskTestCardTitle = createBlock('div','card-content white-text','<span class="card-title">'+flaskData.details[i].ruleCode+'</span><p>'+flaskData.details[i].resultDesc+'</p>');
+            const flaskTestCardResult = createBlock('div','card-action white-text','FAIL');
+
+            flaskTestCard.appendChild(flaskTestCardTitle);
+            flaskTestCard.appendChild(flaskTestCardResult);
+            flaskTestElementContainer.appendChild(flaskTestCard);
+            flaskTestElement.appendChild(flaskTestCard);
+            container.appendChild(flaskTestElement);
+        }
     };
 };
