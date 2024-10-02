@@ -26,25 +26,48 @@
     <!-- Tab header -->
     <div class="col s12 noMargin noPadding">
       <ul class="tabs tabs-fixed-width">
-        <li class="tab col s3"><a class="active blue-text" href="#actionsTab">Actions</a></li>
+        <li class="tab col s3"><a class="blue-text" href="#actionsTab">Actions</a></li>
         <li class="tab col s3"><a class="blue-text" href="#resultsTab">Results</a></li>
       </ul>
     </div>
     
     <!-- Actions Tab -->
-    <div id="actionsTab" class="seolist collection noMargin noPadding noBorder scroll">
-      <a class="blue-text collection-item" target="_blank">
-        Check article
-        <span class="new badge blue" data-badge-caption="Run Tests"><span></span>
-      </a>
-      <a class="blue-text collection-item" target="_blank">
-        Save Story
-        <span class="new badge blue" data-badge-caption="Save Story"><span></span>
-      </a>
+    <div id="actionsTab" class="col s12">
+      
+      <!-- Run Tests -->
+      <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Run Tests</span>
+              <p>Run all tests</p>
+            </div>
+            <div class="card-action">
+              <a href="#" id="runTests" class="waves-effect waves-light btn white-text">Run</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Story -->
+      <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Save Story</span>
+              <p>Saves the story locally</p>
+            </div>
+            <div class="card-action">
+              <a href="#" id="saveStory" class="waves-effect waves-light btn white-text">Run</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Results Tab -->
-    <div id="resultsTab" class="seolist collection noMargin noPadding noBorder scroll">
+    <div id="resultsTab" class="collection col s12">
       There are no tests yet.
     </div>
   </div>

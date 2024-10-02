@@ -6,14 +6,16 @@ document.addEventListener("DOMContentLoaded", async() => {
 
     if (activeTab.url.includes("rappler.com/wp-admin/post.php")) {
         // Initialize tabs
-        await $('ul.tabs').tabs();
+        await $(document).ready(function(){
+            $('.tabs').tabs();
+        });
 
         // Create buttons for runtests
-        const runTestsElement = document.getElementsByClassName("new badge blue")[0];
+        const runTestsElement = document.getElementById("runTests");
         await runTestsElement.addEventListener("click", onCheck);
 
         // Create buttons for save story
-        const saveTestsElement = document.getElementsByClassName("new badge blue")[1];
+        const saveTestsElement = document.getElementById("saveStory");
         await saveTestsElement.addEventListener("click", onSave);
     } else {
         const container = document.getElementsByClassName("row noMargin noPadding")[0];
