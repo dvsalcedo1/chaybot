@@ -50,7 +50,7 @@ const onSave = async e => {
 // Run Tests Function
 const runTests = async (story) => {
     // Call on the chaybot-flask api to process the tests
-    const flaskRes = await fetch("http://35.226.17.69:5000/basictests", {
+    const flaskRes = await fetch("http://34.121.213.215:5000/basictests", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -58,6 +58,11 @@ const runTests = async (story) => {
         body: JSON.stringify(story),
     });
     const flaskData = await flaskRes.json();
+
+    // Initialize collapsibles
+    await $(document).ready(function(){
+        $('.collapsible').collapsible();
+    });
 
     function createBlock(typ='div', className='',innerHTML='') {
         const blk = document.createElement(typ);
@@ -78,21 +83,27 @@ const runTests = async (story) => {
     flaskSummaryElement.appendChild(flaskSummaryFailedElement);
     container.appendChild(flaskSummaryElement);
 
+    const flaskTestsElement = createBlock('ul','collapsible')
     // Create one block for each test
     for (let i = 0; i < flaskData.details.length; i++) {
         if (flaskData.details[i].ruleResult == "FAIL") {
-            const flaskTestElement = createBlock('div','row');
-            const flaskTestElementContainer = createBlock('div', 'col s12 m6');
 
-            const flaskTestCard = createBlock('div','card blue darken-1')
-            const flaskTestCardTitle = createBlock('div','card-content white-text','<span class="card-title">'+flaskData.details[i].ruleCode+'</span><p>'+flaskData.details[i].resultDesc+'</p>');
-            const flaskTestCardResult = createBlock('div','card-action white-text','FAIL');
+            const flaskTestElement = createBlock('li','');
+            flaskTestElement.appendChild(createBlock('div','collapsible-header red lighten-2 white-text','FAIL: '+flaskData.details[i].resultDesc));
 
-            flaskTestCard.appendChild(flaskTestCardTitle);
-            flaskTestCard.appendChild(flaskTestCardResult);
-            flaskTestElementContainer.appendChild(flaskTestCard);
-            flaskTestElement.appendChild(flaskTestCard);
-            container.appendChild(flaskTestElement);
+            const collapsibleBodyElement = createBlock('div','collapsible-body','<p>Rule Code: '+flaskData.details[i].ruleCode+'</p><p>Offending Strings: </p>');
+            collapsibleBodyElement.style = "padding-left: 1rem; padding-right: 1rem; padding-top: 1rem; padding-bottom: 1rem;"
+            const offendingStringsElement = createBlock('ol','');
+            for (let j = 0; j < flaskData.details[i].offendingStrings.length; j++) {
+                offendingStringsElement.appendChild(createBlock('li','',flaskData.details[i].offendingStrings[j]))
+            };
+            collapsibleBodyElement.appendChild(offendingStringsElement)
+            flaskTestElement.appendChild(collapsibleBodyElement);
+
+            flaskTestsElement.appendChild(flaskTestElement);
         }
     };
+
+
+    container.appendChild(flaskTestsElement);
 };
